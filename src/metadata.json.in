@@ -1,8 +1,0 @@
-{
-   "shell-version": ["3.4"],
-   "uuid": "@uuid@",
-   "name": "Notes Search Provider for Gnote/Tomboy",
-   "description": "Provide Gnote/Tomboy search results in overview",
-   "url": "@url@",
-   "original-authors": "Casey Harkins"
-}

@@ -11,7 +11,3 @@ po/stamp-it
 staging/
 
 *~
-*.gmo
-metadata.json
-*.gschema.xml
-*.gschema.valid

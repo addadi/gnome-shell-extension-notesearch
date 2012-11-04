@@ -25,15 +25,15 @@ const St = imports.gi.St;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 const Search = imports.ui.search;
-const Gettext = imports.gettext.domain('gnome-shell-extension-notesearch');
+const Gettext = imports.gettext.domain('notesearch@rrochet.fr');
 const _ = Gettext.gettext;
 
-const NOTESEARCH_SETTINGS_SCHEMA = 'com.github.charkins.notesearch';
-const NOTESEARCH_APP_KEY = 'app';
-const NoteSearchApp = {
-    GNOTE: 0,
-    TOMBOY: 1
-}
+//const NOTESEARCH_SETTINGS_SCHEMA = 'com.github.charkins.notesearch';
+//const NOTESEARCH_APP_KEY = 'app';
+//const NoteSearchApp = {
+//    GNOTE: 0,
+//    TOMBOY: 1
+//}
 
 const GnoteRemoteControl = {
     name: 'org.gnome.Gnote.RemoteControl',
@@ -54,24 +54,24 @@ const GnoteRemoteControl = {
     ]
 };
 
-const TomboyRemoteControl = {
-    name: 'org.gnome.Tomboy.RemoteControl',
-    methods: [
-        {
-            name: 'DisplayNote',
-            inSignature: 's',
-            outSignature: 'b'
-        },{
-            name: 'SearchNotes',
-            inSignature: 'sb',
-            outSignature: 'as'
-        },{
-            name: 'GetNoteTitle',
-            inSignature: 's',
-            outSignature: 'a'
-        }
-    ]
-};
+//const TomboyRemoteControl = {
+//    name: 'org.gnome.Tomboy.RemoteControl',
+//    methods: [
+//        {
+//            name: 'DisplayNote',
+//            inSignature: 's',
+//            outSignature: 'b'
+//        },{
+//            name: 'SearchNotes',
+//            inSignature: 'sb',
+//            outSignature: 'as'
+//        },{
+//            name: 'GetNoteTitle',
+//            inSignature: 's',
+//            outSignature: 'a'
+//        }
+//    ]
+//};
 
 /* noteSearchProvider holds the instance of the search provider
  * implementation. If null, the extension is either uninitialized
@@ -79,11 +79,11 @@ const TomboyRemoteControl = {
  */
 var noteSearchProvider = null;
 
-function getSettings(schema) {
-    if (Gio.Settings.list_schemas().indexOf(schema) == -1)
-        throw _("Schema \"%s\" not found.").format(schema);
-    return new Gio.Settings({ schema: schema });
-}
+//function getSettings(schema) {
+//    if (Gio.Settings.list_schemas().indexOf(schema) == -1)
+//        throw _("Schema \"%s\" not found.").format(schema);
+//    return new Gio.Settings({ schema: schema });
+//}
 
 const NoteSearchProvider = new Lang.Class({
     Name: 'NoteSearchProvider',
@@ -93,20 +93,20 @@ const NoteSearchProvider = new Lang.Class({
     _init: function(name) {
         this.parent(_("NOTES"));
         this.async = true;
-        this._settings = getSettings(NOTESEARCH_SETTINGS_SCHEMA);
+//        this._settings = getSettings(NOTESEARCH_SETTINGS_SCHEMA);
         let notesearch_app_changed = Lang.bind(this, function() {
-            this._noteApp = this._settings.get_enum(NOTESEARCH_APP_KEY);
-            if (this._noteApp == NoteSearchApp.TOMBOY) {
-                this._noteProxy = DBus.makeProxyClass(TomboyRemoteControl);
-                this._noteControl = new this._noteProxy(DBus.session,
-                    'org.gnome.Tomboy',
-                    '/org/gnome/Tomboy/RemoteControl');
-            } else {
+//            this._noteApp = this._settings.get_enum(NOTESEARCH_APP_KEY);
+//            if (this._noteApp == NoteSearchApp.TOMBOY) {
+//                this._noteProxy = DBus.makeProxyClass(TomboyRemoteControl);
+//                this._noteControl = new this._noteProxy(DBus.session,
+//                    'org.gnome.Tomboy',
+//                    '/org/gnome/Tomboy/RemoteControl');
+//            } else {
                 this._noteProxy = DBus.makeProxyClass(GnoteRemoteControl);
                 this._noteControl = new this._noteProxy(DBus.session,
                     'org.gnome.Gnote',
                     '/org/gnome/Gnote/RemoteControl');
-            }
+//            }
         });
 
         notesearch_app_changed();
@@ -124,17 +124,17 @@ const NoteSearchProvider = new Lang.Class({
             let title = results[i]['title'];
             if(!title) title = 'Note';
 
-            if (this._noteApp == NoteSearchApp.TOMBOY) {
-                resultMetas.push({ 'id': resultId,
-                         'name': title,
-                         'createIcon': function(size) {
-                            let xicon = new Gio.ThemedIcon({name: 'tomboy'});
-                            return new St.Icon({icon_size: size,
-                                                gicon: xicon});
-                         }
-    
-                       });
-            } else { 
+//            if (this._noteApp == NoteSearchApp.TOMBOY) {
+//                resultMetas.push({ 'id': resultId,
+//                         'name': title,
+//                         'createIcon': function(size) {
+//                            let xicon = new Gio.ThemedIcon({name: 'tomboy'});
+//                            return new St.Icon({icon_size: size,
+//                                                gicon: xicon});
+//                         }
+//    
+//                       });
+//            } else { 
                 resultMetas.push({ 'id': resultId,
                          'name': title,
                          'createIcon': function(size) {
@@ -144,7 +144,7 @@ const NoteSearchProvider = new Lang.Class({
                          }
 
                        });
-            }
+//            }
         }
         
         callback(resultMetas);
