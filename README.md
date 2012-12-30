@@ -1,5 +1,7 @@
-Note Search Provider
+(Tomboy) Note Search Provider
 =====================
+Based on RaphaelRochet/gnome-shell-extension-notesearch - just changed gnotes to tomboy
+
 A gnome-shell extension which searches [Gnote][1] notes and
 provides them in your shell overview. This extension requires at least
 version 3.6 of gnome-shell.
