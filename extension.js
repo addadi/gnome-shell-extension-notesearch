@@ -1,5 +1,5 @@
 /* -*- mode: js2; js2-basic-offset: 4; indent-tabs-mode: nil -*- */
-/* Asynchronous Gnote Search Provider for Gnome Shell
+/* Asynchronous Tomboy Search Provider for Gnome Shell
  *
  * Copyright (c) 2011 Casey Harkins <charkins@pobox.com>
  * Copyright (c) 2012 Raphael Rochet <raphael.rochet@gmail.com>
@@ -30,8 +30,8 @@ const Search = imports.ui.search;
 const Gettext = imports.gettext.domain('notesearch@rrochet.fr');
 const _ = Gettext.gettext;
 
-const GnoteRemoteControl = {
-    name: 'org.gnome.Gnote.RemoteControl',
+const TomboyRemoteControl = {
+    name: 'org.gnome.Tomboy.RemoteControl',
     methods: [
         {
             name: 'DisplayNote',
@@ -64,10 +64,10 @@ const NoteSearchProvider = new Lang.Class({
         this.parent(_("NOTES"));
         this.async = true;
         let notesearch_app_changed = Lang.bind(this, function() {
-            this._noteProxy = DBus.makeProxyClass(GnoteRemoteControl);
+            this._noteProxy = DBus.makeProxyClass(TomboyRemoteControl);
             this._noteControl = new this._noteProxy(DBus.session,
-                'org.gnome.Gnote',
-                '/org/gnome/Gnote/RemoteControl');
+                'org.gnome.Tomboy',
+                '/org/gnome/Tomboy/RemoteControl');
         });
 
         notesearch_app_changed();
@@ -88,7 +88,7 @@ const NoteSearchProvider = new Lang.Class({
             resultMetas.push({ 'id': resultId,
                      'name': title,
                      'createIcon': function(size) {
-                        let xicon = new Gio.ThemedIcon({name: 'gnote'});
+                        let xicon = new Gio.ThemedIcon({name: 'tomboy'});
                         return new St.Icon({icon_size: size,
                                             gicon: xicon});
                      }
@@ -145,7 +145,7 @@ const NoteSearchProvider = new Lang.Class({
 
     },
 
-    /* Gnote doesn't provide a way for subsearching results, so
+    /* Tomboy doesn't provide a way for subsearching results, so
      * start with a fresh search, cancelling any previous running
      * asynchronous search. */
     getSubsearchResultSet: function(previousResults, terms) {        
